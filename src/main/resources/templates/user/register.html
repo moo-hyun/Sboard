@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+
+        $(function(){
+
+            // 회원가입
+            $('#btnRegister').click(function(e){
+                e.preventDefault();
+
+                $('#form').submit();
+
+            });
+
+            // 아이디 중복체크
+            $('input[name=uid]').focusout(function(){
+
+                const uid = $(this).val();
+
+
+                $.ajax({
+                    url: '/user/check/uid/'+uid,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data){
+                        const labelUid = $('.label-uid');
+                        if(data > 0){
+                            labelUid.parent().addClass('has-error');
+                            labelUid.text('이미 사용 중인 아이디 입니다.');
+                        }else{
+                            labelUid.parent().addClass('has-success');
+                            labelUid.text('사용 가능한 아이디 입니다.');
+                        }
+                    }
+
+                });
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="page-header panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">회원가입</h3>
+                </div>
+                <div class="panel-body">
+                    <form id="form" th:action="@{/user/register}" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="label-uid control-label">아이디</label>
+                                <input class="form-control" name="uid">
+                            </div>
+                            <div class="form-group">
+                                <label>비밀번호</label>
+                                <input class="form-control" name="pass1">
+                            </div>
+                            <div class="form-group">
+                                <label>비밀번호 확인</label>
+                                <input class="form-control" name="pass2">
+                            </div>
+
+                            <div class="form-group">
+                                <label>이름</label>
+                                <input class="form-control" name="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>별명</label>
+                                <input class="form-control" name="nick">
+                                <p class="help-block">별명을 입력하세요.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>이메일</label>
+                                <input class="form-control" name="email">
+                                <p class="help-block">이메일을 입력하세요.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>우편번호</label>
+                                <input class="form-control" name="zip">
+                            </div>
+
+                            <div class="form-group">
+                                <label>기본주소</label>
+                                <input class="form-control" name="addr1">
+                            </div>
+                            <div class="form-group">
+                                <label>상세주소</label>
+                                <input class="form-control" name="addr2">
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <div class="text-center">
+                                <a th:href="@{/user/login}" class="btn btn-default">취소</a>
+                                <a th:href="@{#}" id="btnRegister" class="btn btn-primary">등록</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

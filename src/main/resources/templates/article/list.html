@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+        layout:decorate="/index.html">
+
+                <div class="sboard-list" layout:fragment="content">
+                    <div class="sboard-list panel">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>제목</th>
+                                        <th>글쓴이</th>
+                                        <th>조회수</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="article:${pageResponseDTO.dtoList}">
+                                            <td>[[${article.no}]]</td>
+                                            <td>[[${article.title}]]</td>
+                                            <td>[[${article.writer}]]</td>
+                                            <td>[[${article.hit}]]</td>
+                                            <td>[[${article.rdate}]]</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <div class="text-right">
+                        <a th:href="@{/article/write(cate=${pageResponseDTO.cate})}" class="btn btn-success">글쓰기</a>
+                    </div>
+                    <div class="text-center">
+                        <ul class="pagination">
+
+                            <li th:if="${pageResponseDTO.prev}" class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                <a th:href="@{/article/list(cate=${pageResponseDTO.cate},pg=${pageResponseDTO.start - 1})}">이전</a>
+                            </li>
+
+                                <li th:each="num: ${#numbers.sequence(pageResponseDTO.start , pageResponseDTO.end)}"
+                                    th:classappend="${pageResponseDTO.pg == num ? 'active' : ''}"
+                                    class="paginate_button"
+                                    aria-controls="dataTables-example"
+                                    tabindex="0">
+                                    <a th:href="@{/article/list(cate=${pageResponseDTO.cate},pg=${num})}">[[${num}]]</a>
+                                </li>
+
+                            <li th:if="${pageResponseDTO.next}" class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                <a th:href="@{/article/list(cate=${pageResponseDTO.cate},pg=${pageResponseDTO.end + 1})}">다음</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+</html>
